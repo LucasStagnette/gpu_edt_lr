@@ -8,6 +8,12 @@ LOGIN_URL = (
 
 load_dotenv()
 
+def clean(number:str):
+    try:
+        os.remove(f"ics_files/{number}.ics")
+    except:
+        pass
+
 def connect_and_download(number: str, weeks: list):
     """
     this function connect to gpu and download the week(s) asked of your student number
@@ -49,8 +55,33 @@ def connect_and_download(number: str, weeks: list):
         with open(f"{number}_vcs/{week}.vcs", "w") as file:
             file.write(resp.text)
 
+def assemble(number:str, weeks:list):
+    with open(f"ics_files/{number}.ics", "w") as f:
+        pass
+    with open(f"ics_files/{number}.ics", "a") as file:
+        file.write("BEGIN:VCALENDAR\nPRODID: Gpu2vcs modified by Dynamisoft\nVERSION:2.0\nMETHOD:PUBLISH")
+    for week in weeks:
+        with open(f"{number}_vcs/{week}.vcs", "r") as file:
+            with open(f"ics_files/{number}.ics", "a") as file2:
+                a = file.readlines()[7:-1]
+                for line in a:
+                    file2.write(line)
+    with open(f"ics_files/{number}.ics", "a") as file:
+        file.write("END:VCALENDAR\n")
 
+def clean2(number: str, weeks:list):
+    for week in weeks:
+        os.remove(f"{number}_vcs/{week}.vcs")
 
+number = "222842"
+weeks = []
 
+for i in range(36,53):
+    weeks.append(str(i))
+for i in range(1,36):
+    weeks.append(str(i))
 
-connect_and_download("222842", ["41", "40"])
+clean(number)
+connect_and_download(number, weeks)
+assemble(number, weeks)
+clean2(number, weeks)
