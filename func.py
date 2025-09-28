@@ -136,6 +136,8 @@ import quopri
 import html
 
 def normalize_ics_to_utf8(path: str) -> str:
+
+
     """
     Force un fichier .ics à être encodé en UTF-8 en :
       - détectant et décodant le quoted-printable si présent,
@@ -205,3 +207,23 @@ def normalize_ics_to_utf8(path: str) -> str:
     with open(path, "w", encoding="utf-8", newline="\n") as f:
         f.write(text2)
     return used_encoding
+
+def reformat(number: str):
+
+    path = f"ics_files/{number}.ics"
+
+    new_lines = []
+    with open(path, "r", encoding="utf-8") as f:
+        for line in f:
+            if line.startswith("SUMMARY:"):
+                content = line[len("SUMMARY:"):].strip()
+                parts = content.split(" / ")
+                if len(parts) >= 2:
+                    new_content = " - ".join(parts[:2])
+                else:
+                    new_content = parts[0]
+                line = f"SUMMARY:{new_content}\n"
+            new_lines.append(line)
+
+    with open(path, "w", encoding="utf-8") as f:
+        f.writelines(new_lines)
