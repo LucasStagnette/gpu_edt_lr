@@ -11,6 +11,6 @@ with open("student_number.txt", "r") as file:
         assemble(number, weeks)
         clean2(number, weeks)
         normalize_ics_to_utf8(f"ics_files/{number}.ics")
-        #reformat(number)
-        #fix_wrong_dst(number)
+        reformat(number)
+        fix_wrong_dst(number)
 

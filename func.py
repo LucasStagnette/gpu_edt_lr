@@ -119,7 +119,7 @@ def assemble(number:str, weeks:list):
     for week in weeks:
         with open(f"{number}_vcs/{week}.vcs", "r", encoding="utf-8") as file:
             with open(f"ics_files/{number}.ics", "a", encoding="utf-8") as file2:
-                a = file.readlines()[7:-1]
+                a = file.readlines()[4:-1]
                 for line in a:
                     file2.write(line)
     with open(f"ics_files/{number}.ics", "a", encoding="utf-8") as file:
