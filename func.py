@@ -227,3 +227,39 @@ def reformat(number: str):
 
     with open(path, "w", encoding="utf-8") as f:
         f.writelines(new_lines)
+from datetime import datetime, timedelta
+import pytz
+import re
+
+def fix_wrong_dst(number: str):
+    """
+    Corrige les événements envoyés en 'faux UTC+2'.
+    Le serveur envoie toujours comme si on était en été.
+    On détecte si la date est en hiver et on ajoute +1h.
+    """
+    path = f"ics_files/{number}.ics"
+    paris_tz = pytz.timezone("Europe/Paris")
+
+    new_lines = []
+    with open(path, "r", encoding="utf-8") as f:
+        for line in f:
+            if line.startswith(("DTSTART:", "DTEND:")) and line.strip().endswith("Z"):
+                dt_str = re.search(r":(\d{8}T\d{6})Z", line).group(1)
+                dt_utc = datetime.strptime(dt_str, "%Y%m%dT%H%M%S")
+
+                # ⚡ Correction : le serveur envoie comme si c'était UTC+2
+                # Donc on ajoute +1h si la date est en hiver
+                dt_paris = dt_utc + timedelta(hours=2)   # interprétation "UTC+2 brut"
+                dt_paris = paris_tz.localize(dt_paris, is_dst=None)
+
+                dt_local_str = dt_paris.strftime("%Y%m%dT%H%M%S")
+
+                if line.startswith("DTSTART"):
+                    line = f"DTSTART;TZID=Europe/Paris:{dt_local_str}\n"
+                elif line.startswith("DTEND"):
+                    line = f"DTEND;TZID=Europe/Paris:{dt_local_str}\n"
+
+            new_lines.append(line)
+
+    with open(path, "w", encoding="utf-8") as f:
+        f.writelines(new_lines)
