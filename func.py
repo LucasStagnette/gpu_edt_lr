@@ -38,7 +38,7 @@ def detect_weeks(number:str):
     payload = {
         "modeconnect": "connect",
         "util": f"{number}",
-        "acct_pass": str(os.getenv("PASSWORD"))
+        "acct_pass": str(123)
     }
 
     sess.post(LOGIN_URL, headers=headers, data=payload)
@@ -99,7 +99,7 @@ def connect_and_download(number: str, weeks: list):
     payload = {
         "modeconnect": "connect",
         "util": number,
-        "acct_pass": str(os.getenv("PASSWORD"))
+        "acct_pass": str(123)
     }
 
     sess.post(LOGIN_URL, headers=headers, data=payload)
