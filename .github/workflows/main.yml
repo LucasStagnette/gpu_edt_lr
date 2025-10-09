@@ -2,7 +2,7 @@ name: Update ICS files
 
 on:
   schedule:
-    - cron: '*/59 * * * *'
+    - cron: '*/30 * * * *'
   workflow_dispatch: 
 
 permissions:
