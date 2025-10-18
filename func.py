@@ -115,7 +115,7 @@ def assemble(number:str, weeks:list):
     with open(f"ics_files/{number}.ics", "w", encoding="utf-8") as f:
         pass
     with open(f"ics_files/{number}.ics", "a", encoding="utf-8") as file:
-        file.write("BEGIN:VCALENDAR\nPRODID: Gpu2vcs modified by Dynamisoft\nVERSION:2.0\nMETHOD:PUBLISH\n")
+        file.write("BEGIN:VCALENDAR\nPRODID: Gpu2vcs modified by Dynamisoft\nVERSION:2.0\nMETHOD:PUBLISH\nX-WR-CALNAME:Cours\n")
     for week in weeks:
         with open(f"{number}_vcs/{week}.vcs", "r", encoding="utf-8") as file:
             with open(f"ics_files/{number}.ics", "a", encoding="utf-8") as file2:
