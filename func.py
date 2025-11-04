@@ -249,7 +249,7 @@ def fix_wrong_dst(number: str):
 
                 # ⚡ Correction : le serveur envoie comme si c'était UTC+2
                 # Donc on ajoute +1h si la date est en hiver
-                dt_paris = dt_utc + timedelta(hours=2)   # interprétation "UTC+2 brut"
+                dt_paris = dt_utc + timedelta(hours=1)   # interprétation "UTC+2 brut"
                 dt_paris = paris_tz.localize(dt_paris, is_dst=None)
 
                 dt_local_str = dt_paris.strftime("%Y%m%dT%H%M%S")
