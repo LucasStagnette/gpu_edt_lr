@@ -54,9 +54,10 @@ def detect_weeks(number:str):
     weeks_available = []
     for btn in buttons:
         semaine = btn.get("value")
-        etat = "désactivé" if btn.has_attr("disabled") else "cliquable"
-        if etat == "cliquable":
-            weeks_available.append(str(semaine))
+        #etat = "désactivé" if btn.has_attr("disabled") else "cliquable"
+        #if etat == "cliquable":
+            #weeks_available.append(str(semaine))
+        weeks_available.append(str(semaine))
     sess.close()
     return weeks_available
 
